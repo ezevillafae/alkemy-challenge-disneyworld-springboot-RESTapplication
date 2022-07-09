@@ -19,7 +19,7 @@ public class FilmEntityMother {
 
     public static FilmEntity basicRandom() {
         FilmEntity film = new FilmEntity();
-        film.setTitle("Film random");
+        film.setTitle("Nueva pelicula");
         film.setCreationDate(LocalDateMother.random());
         film.setImage("img/random-image.jpg");
         film.setRating(DoubleMother.random());

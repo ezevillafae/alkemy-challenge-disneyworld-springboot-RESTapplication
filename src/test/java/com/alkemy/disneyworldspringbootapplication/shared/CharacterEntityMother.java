@@ -10,6 +10,7 @@ public class CharacterEntityMother {
         character.setHistory("Random history");
         character.setWeight(DoubleMother.random());
         character.setImage("img/image-random.jpg");
+        character.getFilms().add(FilmEntityMother.basicRandom());
         return character;
     }
 }

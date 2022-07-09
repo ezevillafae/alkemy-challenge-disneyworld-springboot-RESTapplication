@@ -6,8 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -16,11 +21,34 @@ public class CharacterRepositoryTest {
     private CharacterRepository repository;
 
     @Test
+    @Rollback(value = false)
     public void should_create_character(){
         CharacterEntity character = CharacterEntityMother.random();
+        character.setId(17l);
 
-        CharacterEntity actual = repository.save(character);
+        CharacterEntity actual = repository.saveAndFlush(character);
+        Long id = actual.getId();
+        Optional<CharacterEntity> characterEntity = repository.findById(id);
 
-        assertThat(actual).hasNoNullFieldsOrPropertiesExcept("films");
+        assertThat(characterEntity).isPresent();
+        assertThat(characterEntity.get()).hasNoNullFieldsOrProperties();
+    }
+
+    @Test
+    public void should_findAll() {
+        List<CharacterEntity> actual = repository.findAll();
+
+        for(CharacterEntity entity: actual) {
+            assertThat(entity).hasNoNullFieldsOrProperties();
+        }
+    }
+
+    @Test
+    @Rollback(value = false)
+    public void should_not_update_film(){
+        Optional<CharacterEntity> entity = repository.findById(14l);
+        assertThat(entity).isPresent();
+
+        entity.get().getFilms().get(0).setTitle("titulo");
     }
 }
