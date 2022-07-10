@@ -39,6 +39,15 @@ public class FilmEntity implements Serializable{
     )
     private List<CharacterEntity> characters = new ArrayList<>();
 
+    @ManyToMany(
+        cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    @JoinTable(
+            name = "genre_film",
+            joinColumns = @JoinColumn(name = "id_film"),
+            inverseJoinColumns = @JoinColumn(name = "id_genre")
+    )
+    private List<GenreEntity> genres = new ArrayList<>();
 
     public void addCharacter(CharacterEntity entity) {
         characters.add(entity);
@@ -46,5 +55,13 @@ public class FilmEntity implements Serializable{
 
     public void removeCharacter(CharacterEntity entity) {
         characters.remove(entity);
+    }
+
+    public void addGenre(GenreEntity entity) {
+        genres.add(entity);
+    }
+
+    public void removeGenre(GenreEntity entity) {
+        genres.remove(entity);
     }
 }

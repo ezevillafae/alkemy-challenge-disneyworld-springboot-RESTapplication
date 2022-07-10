@@ -12,5 +12,6 @@ public class FilmDto {
     private String title;
     private LocalDate creationDate;
     private Double rating;
+    private List<GenreBasicDto> genres;
     private List<CharacterBasicDto> characters;
 }

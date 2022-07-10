@@ -17,11 +17,14 @@ public class GenreEntity {
     private String name;
     private String image;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "genre_film",
-            joinColumns = @JoinColumn(name = "id_genre"),
-            inverseJoinColumns = @JoinColumn(name = "id_film")
-    )
+    @ManyToMany(mappedBy = "genres")
     private List<FilmEntity> films = new ArrayList<>();
+
+    public void addFilm(FilmEntity entity) {
+        films.add(entity);
+    }
+
+    public void removeFilm(FilmEntity entity) {
+        films.remove(entity);
+    }
 }
