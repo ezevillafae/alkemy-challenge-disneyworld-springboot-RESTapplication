@@ -2,8 +2,6 @@ package com.alkemy.disneyworldspringbootapplication.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class CharacterBasicDto {
     private Long id;

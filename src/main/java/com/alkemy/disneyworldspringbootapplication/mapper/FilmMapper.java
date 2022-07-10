@@ -1,10 +1,8 @@
 package com.alkemy.disneyworldspringbootapplication.mapper;
 
-import com.alkemy.disneyworldspringbootapplication.dto.FilmBasicDto;
 import com.alkemy.disneyworldspringbootapplication.dto.FilmDto;
 import com.alkemy.disneyworldspringbootapplication.entity.FilmEntity;
 import org.mapstruct.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

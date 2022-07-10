@@ -3,7 +3,6 @@ package com.alkemy.disneyworldspringbootapplication.mapper;
 import com.alkemy.disneyworldspringbootapplication.dto.CharacterDto;
 import com.alkemy.disneyworldspringbootapplication.entity.CharacterEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 

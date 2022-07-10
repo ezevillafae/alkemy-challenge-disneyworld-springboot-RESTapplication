@@ -1,13 +1,11 @@
-package com.alkemy.disneyworldspringbootapplication.service;
+package com.alkemy.disneyworldspringbootapplication.service.impl;
 
 import com.alkemy.disneyworldspringbootapplication.dto.CharacterDto;
-import com.alkemy.disneyworldspringbootapplication.dto.FilmBasicDto;
 import com.alkemy.disneyworldspringbootapplication.entity.CharacterEntity;
 import com.alkemy.disneyworldspringbootapplication.mapper.CharacterMapper;
-import com.alkemy.disneyworldspringbootapplication.mapper.FilmMapper;
 import com.alkemy.disneyworldspringbootapplication.repository.CharacterRepository;
+import com.alkemy.disneyworldspringbootapplication.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

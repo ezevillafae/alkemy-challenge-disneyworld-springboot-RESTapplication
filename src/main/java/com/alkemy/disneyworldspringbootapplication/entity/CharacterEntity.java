@@ -1,6 +1,5 @@
 package com.alkemy.disneyworldspringbootapplication.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,7 +12,7 @@ import java.util.List;
 @Data
 public class CharacterEntity implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String image;
@@ -23,7 +22,7 @@ public class CharacterEntity implements Serializable{
     private String history;
 
     @ManyToMany(
-            cascade = CascadeType.ALL
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     @JoinTable(
             name = "film_character",
