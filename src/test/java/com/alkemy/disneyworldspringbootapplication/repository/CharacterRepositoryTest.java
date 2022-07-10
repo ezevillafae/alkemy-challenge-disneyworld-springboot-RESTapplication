@@ -34,14 +34,6 @@ public class CharacterRepositoryTest {
         assertThat(characterEntity.get()).hasNoNullFieldsOrProperties();
     }
 
-    @Test
-    public void should_findAll() {
-        List<CharacterEntity> actual = repository.findAll();
-
-        for(CharacterEntity entity: actual) {
-            assertThat(entity).hasNoNullFieldsOrProperties();
-        }
-    }
 
     @Test
     @Rollback(value = false)

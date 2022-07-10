@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/characters")
@@ -30,8 +31,16 @@ public class CharacterController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CharacterDto>> getAllCharacters() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+    public ResponseEntity<List<CharacterDto>> getAllCharacters(
+            @RequestParam(value = "id", required = false) String id,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "age", required = false) String age,
+            @RequestParam(value = "weight", required = false) String weight,
+            @RequestParam(value = "movies", required = false) Set<Long> movies
+    ) {
+
+        List<CharacterDto> characters = service.findAllByFilter(id, name, age, weight, movies);
+        return ResponseEntity.ok(characters);
     }
 
     @GetMapping("{id}")
