@@ -1,4 +1,4 @@
-package com.alkemy.disneyworldspringbootapplication;
+package com.alkemy.disneyworldspringbootapplication.controller;
 
 import com.alkemy.disneyworldspringbootapplication.dto.CharacterDto;
 import com.alkemy.disneyworldspringbootapplication.service.CharacterService;
