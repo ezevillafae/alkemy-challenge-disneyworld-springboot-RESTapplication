@@ -91,4 +91,17 @@ public class FilmServiceImpl implements FilmService {
 
         return Optional.of(filmMapper.toFilmDto(updatedFilm));
     }
+
+    @Override
+    public void removeCharacterIntoFilm(Long idMovie, Long idCharacter) {
+        Optional<FilmDto> filmDto = findById(idMovie);
+        Optional<CharacterEntity> characterEntity = characterRepository.findById(idCharacter);
+
+        if(filmDto.isPresent() && characterEntity.isPresent()) {
+            CharacterDto characterDto = characterMapper.toCharacterDto(characterEntity.get());
+            filmDto.get().removeCharacter(characterMapper.characterDtoToBasic(characterDto));
+
+            filmRepository.save(filmMapper.fromFilmDto(filmDto.get()));
+        }
+    }
 }

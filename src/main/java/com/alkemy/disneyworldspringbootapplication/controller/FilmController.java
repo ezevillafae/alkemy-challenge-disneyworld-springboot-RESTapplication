@@ -9,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/movies")
@@ -63,6 +61,12 @@ public class FilmController {
         List<FilmDto> films = service.findAllByFilter(film);
 
         return ResponseEntity.ok(films);
+    }
+
+    @DeleteMapping("{idMovie}/characters/{idCharacter}")
+    public ResponseEntity<Object> removeCharacterIntoFilm(@PathVariable Long idMovie, @PathVariable Long idCharacter) {
+        service.removeCharacterIntoFilm(idMovie, idCharacter);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 

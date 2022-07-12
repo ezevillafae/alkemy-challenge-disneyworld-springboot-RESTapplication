@@ -21,5 +21,9 @@ public class FilmDto {
         characters.add(characterBasicDto);
     }
 
+    public void removeCharacter(CharacterBasicDto characterBasicDto) {
+        characters.remove(characterBasicDto);
+    }
+
 
 }

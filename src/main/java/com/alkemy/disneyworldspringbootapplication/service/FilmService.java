@@ -23,4 +23,5 @@ public interface FilmService {
 
     Optional<FilmDto> addCharacterIntoFilm(Long idMovie, Long idCharacter);
 
+    void removeCharacterIntoFilm(Long idMovie, Long idCharacter);
 }
