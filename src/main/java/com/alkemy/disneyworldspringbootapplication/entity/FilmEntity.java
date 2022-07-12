@@ -31,7 +31,7 @@ public class FilmEntity implements Serializable{
     private Double rating;
 
     @ManyToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+            cascade = CascadeType.ALL
     )
     @JoinTable(
             name = "film_character",

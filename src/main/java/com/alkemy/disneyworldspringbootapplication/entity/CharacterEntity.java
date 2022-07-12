@@ -22,12 +22,7 @@ public class CharacterEntity implements Serializable{
     private String history;
 
     @ManyToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
-    @JoinTable(
-            name = "film_character",
-            joinColumns = @JoinColumn(name = "id_character", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id_film", referencedColumnName = "id")
+            mappedBy = "characters"
     )
     private List<FilmEntity> films = new ArrayList<>();
 

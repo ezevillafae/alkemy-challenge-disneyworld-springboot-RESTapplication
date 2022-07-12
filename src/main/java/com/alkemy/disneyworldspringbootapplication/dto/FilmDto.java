@@ -1,5 +1,6 @@
 package com.alkemy.disneyworldspringbootapplication.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -10,8 +11,15 @@ public class FilmDto {
     private Long id;
     private String image;
     private String title;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
     private Double rating;
     private List<GenreBasicDto> genres;
     private List<CharacterBasicDto> characters;
+
+    public void addCharacter(CharacterBasicDto characterBasicDto) {
+        characters.add(characterBasicDto);
+    }
+
+
 }
