@@ -3,12 +3,16 @@ package com.alkemy.disneyworldspringbootapplication.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
 public class CharacterDto {
     private Long id;
     private String image;
+
+    @NotBlank
     private String name;
     private Integer age;
     private Double weight;

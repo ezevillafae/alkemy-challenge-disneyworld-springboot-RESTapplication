@@ -3,6 +3,7 @@ package com.alkemy.disneyworldspringbootapplication.service.impl;
 import com.alkemy.disneyworldspringbootapplication.dto.CharacterDto;
 import com.alkemy.disneyworldspringbootapplication.dto.CharacterFilterDto;
 import com.alkemy.disneyworldspringbootapplication.entity.CharacterEntity;
+import com.alkemy.disneyworldspringbootapplication.exception.ParamNotFound;
 import com.alkemy.disneyworldspringbootapplication.mapper.CharacterMapper;
 import com.alkemy.disneyworldspringbootapplication.repository.CharacterRepository;
 import com.alkemy.disneyworldspringbootapplication.repository.specification.CharacterSpecification;
@@ -38,18 +39,19 @@ public class CharacterServiceImpl implements CharacterService {
     @Override
     public Optional<CharacterDto> update(CharacterDto characterDto) {
         Optional<CharacterEntity> character = repository.findById(characterDto.getId());
-        if (character.isPresent()) {
-            CharacterEntity entity = character.get();
-            entity.setImage(characterDto.getImage());
-            entity.setWeight(characterDto.getWeight());
-            entity.setAge(characterDto.getAge());
-            entity.setHistory(characterDto.getHistory());
-            entity.setName(characterDto.getName());
-            repository.save(entity);
-            return Optional.of(mapper.toCharacterDto(character.get()));
-        } else {
-            return Optional.empty();
+
+        if (character.isEmpty()) {
+            throw new ParamNotFound("character id not found");
         }
+
+        CharacterEntity entity = character.get();
+        entity.setImage(characterDto.getImage());
+        entity.setWeight(characterDto.getWeight());
+        entity.setAge(characterDto.getAge());
+        entity.setHistory(characterDto.getHistory());
+        entity.setName(characterDto.getName());
+        repository.save(entity);
+        return Optional.of(mapper.toCharacterDto(character.get()));
     }
 
     @Override

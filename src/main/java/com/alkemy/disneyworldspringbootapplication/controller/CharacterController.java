@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class CharacterController {
     }
 
     @PutMapping
-    public ResponseEntity<CharacterDto> update(@RequestBody CharacterDto character) {
+    public ResponseEntity<CharacterDto> update(@Valid @RequestBody CharacterDto character) {
         Optional<CharacterDto> updatedCharacter = service.update(character);
         return ResponseEntity.status(HttpStatus.OK).body(updatedCharacter.get());
     }
