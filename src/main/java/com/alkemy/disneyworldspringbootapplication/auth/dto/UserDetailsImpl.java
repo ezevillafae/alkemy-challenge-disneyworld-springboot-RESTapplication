@@ -2,7 +2,6 @@ package com.alkemy.disneyworldspringbootapplication.auth.dto;
 
 import com.alkemy.disneyworldspringbootapplication.auth.entity.UserEntity;
 import lombok.Builder;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -1,7 +1,7 @@
 package com.alkemy.disneyworldspringbootapplication.auth.filter;
 
+import com.alkemy.disneyworldspringbootapplication.auth.service.impl.UserDetailsServiceImpl;
 import com.alkemy.disneyworldspringbootapplication.auth.shared.JwtUtils;
-import com.alkemy.disneyworldspringbootapplication.auth.service.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

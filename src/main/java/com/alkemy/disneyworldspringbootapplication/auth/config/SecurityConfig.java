@@ -1,8 +1,8 @@
 package com.alkemy.disneyworldspringbootapplication.auth.config;
 
-import com.alkemy.disneyworldspringbootapplication.auth.filter.AuthTokenFilter;
 import com.alkemy.disneyworldspringbootapplication.auth.exception.AuthEntryPointJwt;
-import com.alkemy.disneyworldspringbootapplication.auth.service.UserDetailsServiceImpl;
+import com.alkemy.disneyworldspringbootapplication.auth.filter.AuthTokenFilter;
+import com.alkemy.disneyworldspringbootapplication.auth.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

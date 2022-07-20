@@ -1,7 +1,6 @@
 package com.alkemy.disneyworldspringbootapplication.auth.shared;
 
 import com.alkemy.disneyworldspringbootapplication.auth.dto.UserDetailsImpl;
-
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

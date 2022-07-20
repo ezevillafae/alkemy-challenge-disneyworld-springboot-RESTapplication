@@ -1,8 +1,6 @@
 package com.alkemy.disneyworldspringbootapplication.service;
 
 import com.alkemy.disneyworldspringbootapplication.dto.CharacterDto;
-import com.alkemy.disneyworldspringbootapplication.entity.CharacterEntity;
-import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,15 +1,15 @@
 package com.alkemy.disneyworldspringbootapplication.auth.dto.response;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
-
-@Builder
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class JwtResponse {
     private Long id;
     private String token;
-    private String type = "Bearer";
+    private String type;
     private String username;
 }
