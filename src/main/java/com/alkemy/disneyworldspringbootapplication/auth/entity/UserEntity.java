@@ -5,16 +5,18 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(
+        name = "users",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
 @Data
 public class UserEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String username;
-
     private String password;
+
+
 }
+

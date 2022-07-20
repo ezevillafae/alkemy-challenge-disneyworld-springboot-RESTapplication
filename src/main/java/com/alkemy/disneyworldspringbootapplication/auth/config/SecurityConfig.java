@@ -1,13 +1,14 @@
 package com.alkemy.disneyworldspringbootapplication.auth.config;
 
-import com.alkemy.disneyworldspringbootapplication.auth.filter.JwtRequestFilter;
-import com.alkemy.disneyworldspringbootapplication.auth.service.AuthEntryPointJwt;
+import com.alkemy.disneyworldspringbootapplication.auth.filter.AuthTokenFilter;
+import com.alkemy.disneyworldspringbootapplication.auth.exception.AuthEntryPointJwt;
 import com.alkemy.disneyworldspringbootapplication.auth.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,8 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -27,8 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
-    public JwtRequestFilter authenticationJwtTokenFilter() {
-        return new JwtRequestFilter();
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
     }
 
     @Override
@@ -49,10 +51,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                        .authorizeRequests().anyRequest().permitAll();
+                .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .antMatchers("/test/**").permitAll()
+                .anyRequest().authenticated();
+
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

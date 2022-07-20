@@ -1,4 +1,4 @@
-package com.alkemy.disneyworldspringbootapplication.auth.service;
+package com.alkemy.disneyworldspringbootapplication.auth.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
