@@ -2,7 +2,6 @@ package com.alkemy.disneyworldspringbootapplication.controller;
 
 import com.alkemy.disneyworldspringbootapplication.dto.GenreDto;
 import com.alkemy.disneyworldspringbootapplication.service.GenreService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
