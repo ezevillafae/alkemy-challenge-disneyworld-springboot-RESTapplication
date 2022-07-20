@@ -23,6 +23,7 @@ public class AuthController {
     @Autowired
     private RegisterService registerService;
 
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         JwtResponse response = loginService.authenticate(loginRequest);
