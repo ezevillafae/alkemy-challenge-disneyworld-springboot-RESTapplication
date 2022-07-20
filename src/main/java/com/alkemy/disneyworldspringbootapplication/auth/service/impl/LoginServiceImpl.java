@@ -6,8 +6,10 @@ import com.alkemy.disneyworldspringbootapplication.auth.dto.response.JwtResponse
 import com.alkemy.disneyworldspringbootapplication.auth.service.LoginService;
 import com.alkemy.disneyworldspringbootapplication.auth.shared.JwtUtils;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -26,17 +28,21 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public JwtResponse authenticate(LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()));
+    public JwtResponse authenticate(LoginRequest loginRequest) throws AuthenticationException {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        return new JwtResponse(userDetails.getId(), jwt, JWT_TYPE, userDetails.getUsername());
+            return new JwtResponse(userDetails.getId(), jwt, JWT_TYPE, userDetails.getUsername());
+        } catch (Exception e) {
+            throw  new BadCredentialsException("Username or password incorrect");
+        }
     }
 }
