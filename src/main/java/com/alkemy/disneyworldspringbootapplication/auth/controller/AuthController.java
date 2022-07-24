@@ -18,11 +18,15 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private LoginService loginService;
-    @Autowired
-    private RegisterService registerService;
+    private final LoginService loginService;
 
+    private final RegisterService registerService;
+
+    @Autowired
+    public AuthController(LoginService loginService, RegisterService registerService) {
+        this.loginService = loginService;
+        this.registerService = registerService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

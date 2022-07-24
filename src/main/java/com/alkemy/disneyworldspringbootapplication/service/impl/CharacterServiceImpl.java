@@ -3,7 +3,6 @@ package com.alkemy.disneyworldspringbootapplication.service.impl;
 import com.alkemy.disneyworldspringbootapplication.dto.CharacterDto;
 import com.alkemy.disneyworldspringbootapplication.dto.CharacterFilterDto;
 import com.alkemy.disneyworldspringbootapplication.entity.CharacterEntity;
-import com.alkemy.disneyworldspringbootapplication.exception.ParamNotFound;
 import com.alkemy.disneyworldspringbootapplication.mapper.CharacterMapper;
 import com.alkemy.disneyworldspringbootapplication.repository.CharacterRepository;
 import com.alkemy.disneyworldspringbootapplication.repository.specification.CharacterSpecification;
@@ -13,20 +12,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
-    @Autowired
-    private CharacterRepository repository;
+    private final CharacterRepository repository;
+
+    private final CharacterMapper mapper;
+
+    private final CharacterSpecification specification;
 
     @Autowired
-    private CharacterMapper mapper;
-
-    @Autowired
-    private CharacterSpecification specification;
+    public CharacterServiceImpl(CharacterRepository repository, CharacterMapper mapper, CharacterSpecification specification) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.specification = specification;
+    }
 
     @Override
     public CharacterDto save(CharacterDto characterDto) {
@@ -40,7 +42,7 @@ public class CharacterServiceImpl implements CharacterService {
         Optional<CharacterEntity> character = repository.findById(characterDto.getId());
 
         if (character.isEmpty()) {
-            throw new ParamNotFound("character id not found");
+            return Optional.empty();
         }
 
         CharacterEntity entity = character.get();
@@ -62,13 +64,12 @@ public class CharacterServiceImpl implements CharacterService {
     public Optional<CharacterDto> findById(Long id) {
         Optional<CharacterEntity> savedCharacter = repository.findById(id);
 
-        return savedCharacter.map(entity -> mapper.toCharacterDto(entity));
+        return savedCharacter.map(mapper::toCharacterDto);
     }
 
     @Override
-    public List<CharacterDto> findAllByFilter(String id, String name, String age, String weight, Set<Long> movies) {
-        CharacterFilterDto filterDto = new CharacterFilterDto(id, name, age, weight, movies);
-        List<CharacterEntity> characterEntities = repository.findAll(this.specification.getByFilters(filterDto));
+    public List<CharacterDto> findAllByFilter(CharacterFilterDto characterFilterDto) {
+        List<CharacterEntity> characterEntities = repository.findAll(this.specification.getByFilters(characterFilterDto));
         return mapper.toCharacterDtoList(characterEntities);
     }
 }

@@ -20,17 +20,20 @@ import java.util.Optional;
 @Service
 public class FilmServiceImpl implements FilmService {
 
-    @Autowired
-    private FilmRepository filmRepository;
-    @Autowired
-    private CharacterRepository characterRepository;
-    @Autowired
-    private FilmMapper filmMapper;
-    @Autowired
-    private CharacterMapper characterMapper;
+    private final FilmRepository filmRepository;
+    private final CharacterRepository characterRepository;
+    private final FilmMapper filmMapper;
+    private final CharacterMapper characterMapper;
+    private final FilmSpecification specification;
 
     @Autowired
-    private FilmSpecification specification;
+    public FilmServiceImpl(FilmRepository filmRepository, CharacterRepository characterRepository, FilmMapper filmMapper, CharacterMapper characterMapper, FilmSpecification specification) {
+        this.filmRepository = filmRepository;
+        this.characterRepository = characterRepository;
+        this.filmMapper = filmMapper;
+        this.characterMapper = characterMapper;
+        this.specification = specification;
+    }
 
     @Override
     public FilmDto save(FilmDto filmDto) {
@@ -65,7 +68,7 @@ public class FilmServiceImpl implements FilmService {
     public Optional<FilmDto> findById(Long id) {
         Optional<FilmEntity> savedFilm = filmRepository.findById(id);
 
-        return savedFilm.map(filmEntity -> filmMapper.toFilmDto(filmEntity));
+        return savedFilm.map(filmMapper::toFilmDto);
     }
 
     @Override
@@ -93,7 +96,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public void removeCharacterIntoFilm(Long idMovie, Long idCharacter) {
+    public Optional<FilmDto> removeCharacterIntoFilm(Long idMovie, Long idCharacter) {
         Optional<FilmDto> filmDto = findById(idMovie);
         Optional<CharacterEntity> characterEntity = characterRepository.findById(idCharacter);
 
@@ -101,7 +104,13 @@ public class FilmServiceImpl implements FilmService {
             CharacterDto characterDto = characterMapper.toCharacterDto(characterEntity.get());
             filmDto.get().removeCharacter(characterMapper.characterDtoToBasic(characterDto));
 
-            filmRepository.save(filmMapper.fromFilmDto(filmDto.get()));
+            FilmEntity savedFilm = filmRepository.save(filmMapper.fromFilmDto(filmDto.get()));
+
+            FilmDto updatedFilm = filmMapper.toFilmDto(savedFilm);
+
+            return Optional.of(updatedFilm);
+        } else {
+            return Optional.empty();
         }
     }
 }

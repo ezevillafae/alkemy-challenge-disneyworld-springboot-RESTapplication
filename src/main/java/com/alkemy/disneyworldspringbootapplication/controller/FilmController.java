@@ -2,12 +2,15 @@ package com.alkemy.disneyworldspringbootapplication.controller;
 
 import com.alkemy.disneyworldspringbootapplication.dto.FilmDto;
 import com.alkemy.disneyworldspringbootapplication.dto.FilmFilterDto;
+import com.alkemy.disneyworldspringbootapplication.exception.FilmNotFound;
+import com.alkemy.disneyworldspringbootapplication.exception.ParamNotFound;
 import com.alkemy.disneyworldspringbootapplication.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -16,11 +19,15 @@ import java.util.Set;
 @RequestMapping("/movies")
 public class FilmController {
 
+    private final FilmService service;
+
     @Autowired
-    private FilmService service;
+    public FilmController(FilmService service) {
+        this.service = service;
+    }
 
     @PostMapping
-    public ResponseEntity<FilmDto> save(@RequestBody FilmDto filmDto) {
+    public ResponseEntity<FilmDto> save(@Valid @RequestBody FilmDto filmDto) {
         FilmDto savedFilm = service.save(filmDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedFilm);
     }
@@ -30,16 +37,16 @@ public class FilmController {
         Optional<FilmDto> updatedFilm = service.addCharacterIntoFilm(idMovie, idCharacter);
         return updatedFilm
                 .map(dto -> ResponseEntity.status(HttpStatus.OK).body(dto))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                .orElseThrow(() -> new ParamNotFound("movie or character not found"));
     }
 
     @PutMapping
-    public ResponseEntity<FilmDto> update(@RequestBody FilmDto filmDto) {
+    public ResponseEntity<FilmDto> update(@Valid @RequestBody FilmDto filmDto) {
         Optional<FilmDto> updatedFilm = service.update(filmDto);
 
         return updatedFilm
                 .map(dto -> ResponseEntity.status(HttpStatus.OK).body(dto))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                .orElseThrow(() -> new FilmNotFound(filmDto.getId()));
     }
 
     @GetMapping("{id}")
@@ -48,7 +55,7 @@ public class FilmController {
 
         return film
                 .map(f -> ResponseEntity.status(HttpStatus.OK).body(f))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                .orElseThrow(() -> new FilmNotFound(id));
     }
 
     @GetMapping
@@ -65,9 +72,11 @@ public class FilmController {
     }
 
     @DeleteMapping("{idMovie}/characters/{idCharacter}")
-    public ResponseEntity<Object> removeCharacterIntoFilm(@PathVariable Long idMovie, @PathVariable Long idCharacter) {
-        service.removeCharacterIntoFilm(idMovie, idCharacter);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<FilmDto> removeCharacterIntoFilm(@PathVariable Long idMovie, @PathVariable Long idCharacter) {
+        Optional<FilmDto> updatedFilm = service.removeCharacterIntoFilm(idMovie, idCharacter);
+        return updatedFilm
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ParamNotFound("character or movie not found"));
     }
 
 

@@ -1,6 +1,8 @@
 package com.alkemy.disneyworldspringbootapplication.controller.exception;
 
 import com.alkemy.disneyworldspringbootapplication.dto.ApiErrorDto;
+import com.alkemy.disneyworldspringbootapplication.exception.CharacterNotFound;
+import com.alkemy.disneyworldspringbootapplication.exception.FilmNotFound;
 import com.alkemy.disneyworldspringbootapplication.exception.ParamNotFound;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .message(ex.getMessage())
                 .status(HttpStatus.BAD_REQUEST)
                 .errors(List.of("Param Not Found"))
+                .build();
+        return handleExceptionInternal(ex, errorDto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(value = CharacterNotFound.class)
+    protected ResponseEntity<Object> handleCharacterNotFoundException(RuntimeException ex, WebRequest request) {
+        ApiErrorDto errorDto = ApiErrorDto.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST)
+                .errors(List.of("Character Not Found"))
+                .build();
+        return handleExceptionInternal(ex, errorDto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(value = FilmNotFound.class)
+    protected ResponseEntity<Object> handleFilmNotFoundException(RuntimeException ex, WebRequest request) {
+        ApiErrorDto errorDto = ApiErrorDto.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST)
+                .errors(List.of("Film Not Found"))
                 .build();
         return handleExceptionInternal(ex, errorDto, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }

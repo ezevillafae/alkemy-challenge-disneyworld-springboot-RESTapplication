@@ -1,10 +1,6 @@
 package com.alkemy.disneyworldspringbootapplication.shared;
 
-import com.alkemy.disneyworldspringbootapplication.dto.FilmBasicDto;
 import com.alkemy.disneyworldspringbootapplication.entity.FilmEntity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FilmEntityMother {
     public static FilmEntity random(){

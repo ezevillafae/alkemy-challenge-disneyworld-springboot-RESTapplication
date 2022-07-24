@@ -1,4 +1,4 @@
-package com.alkemy.disneyworldspringbootapplication.auth.exception;
+package com.alkemy.disneyworldspringbootapplication.dto;
 
 import lombok.Data;
 

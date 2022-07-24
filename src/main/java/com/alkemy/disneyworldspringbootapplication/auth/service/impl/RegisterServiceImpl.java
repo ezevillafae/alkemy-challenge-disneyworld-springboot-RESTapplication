@@ -2,9 +2,9 @@ package com.alkemy.disneyworldspringbootapplication.auth.service.impl;
 
 import com.alkemy.disneyworldspringbootapplication.auth.dto.request.SignupRequest;
 import com.alkemy.disneyworldspringbootapplication.auth.entity.UserEntity;
-import com.alkemy.disneyworldspringbootapplication.auth.exception.MessageResponse;
 import com.alkemy.disneyworldspringbootapplication.auth.repository.UserRepository;
 import com.alkemy.disneyworldspringbootapplication.auth.service.RegisterService;
+import com.alkemy.disneyworldspringbootapplication.dto.MessageResponse;
 import com.alkemy.disneyworldspringbootapplication.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

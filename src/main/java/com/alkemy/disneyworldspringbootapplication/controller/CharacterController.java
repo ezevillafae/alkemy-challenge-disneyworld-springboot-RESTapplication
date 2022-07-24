@@ -1,6 +1,8 @@
 package com.alkemy.disneyworldspringbootapplication.controller;
 
 import com.alkemy.disneyworldspringbootapplication.dto.CharacterDto;
+import com.alkemy.disneyworldspringbootapplication.dto.CharacterFilterDto;
+import com.alkemy.disneyworldspringbootapplication.exception.CharacterNotFound;
 import com.alkemy.disneyworldspringbootapplication.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +18,15 @@ import java.util.Set;
 @RequestMapping("/characters")
 public class CharacterController {
 
+    private final CharacterService service;
+
     @Autowired
-    private CharacterService service;
+    public CharacterController(CharacterService service) {
+        this.service = service;
+    }
 
     @PostMapping
-    public ResponseEntity<CharacterDto> save(@RequestBody CharacterDto character) {
+    public ResponseEntity<CharacterDto> save(@Valid @RequestBody CharacterDto character) {
         CharacterDto savedCharacter = service.save(character);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCharacter);
     }
@@ -28,7 +34,9 @@ public class CharacterController {
     @PutMapping
     public ResponseEntity<CharacterDto> update(@Valid @RequestBody CharacterDto character) {
         Optional<CharacterDto> updatedCharacter = service.update(character);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedCharacter.get());
+        return updatedCharacter
+                .map(characterDto -> ResponseEntity.status(HttpStatus.OK).body(characterDto))
+                .orElseThrow(() -> new CharacterNotFound(character.getId()));
     }
 
     @GetMapping
@@ -39,8 +47,8 @@ public class CharacterController {
             @RequestParam(value = "weight", required = false) String weight,
             @RequestParam(value = "movies", required = false) Set<Long> movies
     ) {
-
-        List<CharacterDto> characters = service.findAllByFilter(id, name, age, weight, movies);
+        CharacterFilterDto filterDto = new CharacterFilterDto(id,name,age,weight,movies);
+        List<CharacterDto> characters = service.findAllByFilter(filterDto);
         return ResponseEntity.ok(characters);
     }
 
