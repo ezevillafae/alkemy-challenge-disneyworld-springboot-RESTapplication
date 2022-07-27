@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class FilmDto {
     @NotBlank
     private String title;
     @JsonFormat(pattern = "dd-MM-yyyy")
-    @NotBlank
+    @NotNull
     private LocalDate creationDate;
     @Min(0) @Max(5)
     private Double rating;

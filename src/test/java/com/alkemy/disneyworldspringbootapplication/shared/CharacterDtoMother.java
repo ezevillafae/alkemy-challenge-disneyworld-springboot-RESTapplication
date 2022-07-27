@@ -7,6 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterDtoMother {
+
+    public static CharacterDto build(String name, String history, String image, Integer age, Double weight, List<FilmBasicDto> movies) {
+        CharacterDto dto = new CharacterDto();
+        dto.setAge(age);
+        dto.setImage(image);
+        dto.setName(name);
+        dto.setHistory(history);
+        dto.setWeight(weight);
+        movies.forEach(basicDto -> dto.getFilms().add(basicDto));
+        return dto;
+    }
     public static CharacterDto random() {
         CharacterDto dto = new CharacterDto();
         dto.setAge(IntegerMother.random());
