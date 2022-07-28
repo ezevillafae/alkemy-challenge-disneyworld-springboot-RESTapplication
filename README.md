@@ -6,14 +6,14 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div style="text-align: center">
+<div align="center">
   <a href="https://github.com/ezevillafae/alkemy-challenge-disneyworld-springboot-rest-application">
     <img src="images/alkemy-logo.png" alt="Logo" width="350">
   </a>
 
 <h3 align="center">Alkemy Backend Java Challenge</h3>
 
-  <p style="text-align: center">
+  <p align="center">
     Developed REST API that allows browsing Disney characters and their movies.
     <br />
     <a href="https://github.com/ezevillafae/alkemy-challenge-disneyworld-springboot-rest-application"><strong>Explore the docs »</strong></a>
