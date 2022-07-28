@@ -111,6 +111,7 @@ To get started follow the steps below.
 2. Get a free API Key at [Sendgrid](https://sendgrid.com/)
 3. Set the environment variable EMAIL_API_KEY with the value of the key generated in sengrid
 4. Configure the property disney.app.email.sender in application.properties 
+5. Create database with name "disneydb"
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
